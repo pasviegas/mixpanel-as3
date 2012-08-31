@@ -13,7 +13,7 @@ package com.mixpanel
 	
 	/**
 	 * Mixpanel AS3 API
-	 * <p>Version 2.0.1</p>
+	 * <p>Version 2.0.2</p>
 	 */
 	
 	public class Mixpanel
@@ -234,8 +234,170 @@ package com.mixpanel
 		public function name_tag(name:String):void
 		{
 			storage.register({ "mp_name_tag": name });
+		} 
+		
+		/**
+		 * Set properties on a user record
+		 * 
+		 * Usage:
+		 * 
+		 * 		mixpanel.people_set('gender', 'm');
+		 * 
+		 * 		mixpanel.people.set({
+		 * 			'company': 'Acme',
+		 * 			'plan': 'free'
+		 * 		});
+		 * 
+		 * 		// properties can be strings, integers or dates
+		 */
+		public function people_set(...args):Object
+		{
+			if (!storage.has("distinct_id")) {
+				trace("Error: identify() must be called before people_set can be used");
+				return { "error": "identify() must be called before people_set can be used" };
+			}
+			
+			var $set:Object = {}, callback:Function = null;
+			
+			if (args[0] is String) {
+				$set[args[0]] = args[1];
+			} else {
+				$set = args[0];
+			}
+			
+			if (args[args.length-1] is Function) {
+				callback = args[args.length-1];
+			}
+			
+			$set = $set ? _.extend({}, $set) : {};
+			
+			var data:Object = {
+				"$set": $set,
+				"$token": config.token,
+				"$distinct_id": storage.get("distinct_id")
+			};
+			
+			var truncatedData:Object = _.truncate(data, 255),
+				jsonData:String = _.jsonEncode(truncatedData),
+				encodedData:String = _.base64Encode(jsonData);
+			
+			sendRequest(
+				{
+					"data": encodedData,
+					"ip": 1
+				},
+				callback
+			);
+			
+			return truncatedData;
 		}
 		
+		/**
+		 * Increment/decrement properties on a user record
+		 * 
+		 * Usage:
+		 * 
+		 * 		mixpanel.people_increment('page_views', 1);
+		 * 
+		 * 		// or, for convienience, if you're just incrementing a counter by 1, you can
+		 * 		// simply do
+		 * 		mixpanel.people_increment('page_views');
+		 * 
+		 * 		// to decrement a counter, pass a negative number
+		 * 		mixpanel.people.increment('credits_left', -1);
+		 * 
+		 * 		// like mixpanel.people_set(), you can increment multiple properties at once:
+		 * 		mixpanel.people.increment({
+		 * 			'counter1': '1',
+		 * 			'counter2': '3'
+		 * 		});
+		 */
+		public function people_increment(...args):Object
+		{
+			if (!storage.has("distinct_id")) {
+				trace("Error: identify() must be called before people_increment can be used");
+				return { "error": "identify() must be called before people_increment can be used" };
+			}
+			
+			var props:Object = {}, callback:Function = null;
+			
+			if (args[0] is String) {
+				props[args[0]] = args[1];
+			} else {
+				props = args[0];
+			}
+			
+			if (args[args.length-1] is Function) {
+				callback = args[args.length-1];
+			}
+			
+			var $add:Object = {};
+			for (var key:String in props) {
+				if (props[key] is Number) { $add[key] = props[key]; }
+			}
+			
+			var data:Object = {
+				"$add": $add,
+				"$token": config.token,
+				"$distinct_id": storage.get("distinct_id")
+			};
+			
+			var truncatedData:Object = _.truncate(data, 255),
+				jsonData:String = _.jsonEncode(truncatedData),
+				encodedData:String = _.base64Encode(jsonData);
+			
+			sendRequest(
+				{
+					"data": encodedData,
+					"ip": 1
+				},
+				callback
+			);
+			
+			return truncatedData;
+		}
+		
+		/**
+		 * delete the current user record (using current distinct_id)
+		 * 
+		 * usage:
+		 * 		
+		 * 		mixpanel.people_delete();
+		 * 
+		 */
+		public function people_delete(...args):Object
+		{
+			if (!storage.has("distinct_id")) {
+				trace("Error: identify() must be called before people_delete can be used");
+				return { "error": "identify() must be called before people_delete can be used" };
+			}
+			
+			var callback:Function = null;
+			if (args[0] is Function) {
+				callback = args[0];
+			}
+			
+			var data:Object = {
+				"$delete": storage.get("distinct_id"),
+				"$token": config.token,
+				"$distinct_id": storage.get("distinct_id")
+			};
+			
+			var truncatedData:Object = _.truncate(data, 255),
+				jsonData:String = _.jsonEncode(truncatedData),
+				encodedData:String = _.base64Encode(jsonData);
+			
+			sendRequest(
+				{
+					"data": encodedData,
+					"ip": 1
+				},
+				callback
+			);
+			
+			return truncatedData;
+		}
+
 		/**
 		 * Update the configuration of a mixpanel library instance.
 		 * 

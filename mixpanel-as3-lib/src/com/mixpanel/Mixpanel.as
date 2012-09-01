@@ -239,8 +239,9 @@ package com.mixpanel
 		/**
 		 * Set properties on a user record
 		 * 
-		 * Usage:
+		 * <p>Usage:</p>
 		 * 
+		 * <pre>
 		 * 		mixpanel.people_set('gender', 'm');
 		 * 
 		 * 		mixpanel.people.set({
@@ -249,6 +250,7 @@ package com.mixpanel
 		 * 		});
 		 * 
 		 * 		// properties can be strings, integers or dates
+		 * </pre>
 		 */
 		public function people_set(...args):Object
 		{
@@ -295,8 +297,9 @@ package com.mixpanel
 		/**
 		 * Increment/decrement properties on a user record
 		 * 
-		 * Usage:
+		 * <p>Usage:</p>
 		 * 
+		 * <pre>
 		 * 		mixpanel.people_increment('page_views', 1);
 		 * 
 		 * 		// or, for convienience, if you're just incrementing a counter by 1, you can
@@ -311,6 +314,7 @@ package com.mixpanel
 		 * 			'counter1': '1',
 		 * 			'counter2': '3'
 		 * 		});
+		 * </pre>
 		 */
 		public function people_increment(...args):Object
 		{
@@ -360,10 +364,11 @@ package com.mixpanel
 		/**
 		 * delete the current user record (using current distinct_id)
 		 * 
-		 * usage:
+		 * <p>Usage:</p>
 		 * 		
+		 * <pre>
 		 * 		mixpanel.people_delete();
-		 * 
+		 * </pre>
 		 */
 		public function people_delete(...args):Object
 		{

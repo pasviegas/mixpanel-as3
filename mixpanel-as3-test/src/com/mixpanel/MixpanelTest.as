@@ -1,7 +1,5 @@
 package com.mixpanel
 {
-	import flash.utils.getQualifiedClassName;
-	
 	import com.mixpanel.Mixpanel;
 	
 	import flash.events.Event;
@@ -9,6 +7,7 @@ package com.mixpanel
 	import flash.events.TimerEvent;
 	import flash.net.SharedObject;
 	import flash.utils.Timer;
+	import flash.utils.getQualifiedClassName;
 	
 	import mx.utils.UIDUtil;
 	
@@ -106,22 +105,6 @@ package com.mixpanel
 			localMix.track("test_track", {"hello": "world"}, function(resp:String):void {	
 				start(asyncID, resp);
 			});
-		}
-		
-		[Test(async, description="check parallel track()'s")]
-		public function track_multiple():void {
-			var result:Array = [];
-			
-			mixpanel.track("test_multiple", function(resp:String):void { 
-				result.push(1);
-			});
-			mixpanel.track("test_multiple", function(resp:String):void {
-				result.push(2);
-			});
-			
-			Async.delayCall(this, function():void {
-				Assert.assertTrue("Both track()'s successfully fired", result.indexOf(1) != -1 && result.indexOf(2) != -1);
-			}, 2000);
 		}
 		
 		[Test(description="track should support typed properties")]
@@ -318,6 +301,70 @@ package com.mixpanel
 			
 			localMix.name_tag(name);
 			Assert.assertEquals("name tag set", localMix.storage.get("mp_name_tag"), name);
+		}
+		
+		[Test(description="people_set")]
+		public function people_set():void {
+			var testdata0:Object = { key0: 'val0' },
+				testdata1:Object = { key1: 'val1' },
+				testdata2:Object = { key2: 'val2', key3: 'val3' },
+				data:Object, id:String = "someid";
+			
+			data = localMix.people_set("should", "fail");
+			Assert.assertTrue("requires identify() to be called", "error" in data);
+			
+			localMix.identify(id);
+				
+			data = localMix.people_set('key0', 'val0');
+			Assert.assertTrue("supports setting a single value", objContains(data["$set"], testdata0));
+			Assert.assertEquals("grabs distinct_id", data["$distinct_id"], id);
+			
+			data = localMix.people_set(testdata1);
+			Assert.assertTrue("supports setting with an object", objContains(data["$set"], testdata1));
+			
+			data = localMix.people_set(testdata2);
+			Assert.assertTrue("supports setting multiple keys", objContains(data["$set"], testdata2));
+		}
+		
+		[Test(description="people_increment")]
+		public function people_increment():void {
+			var testdata0:Object = { key0: 1 },
+				testdata1:Object = { key1: 3 },
+				testdata2:Object = { key2: 4, key3: 34 },
+				baddata:Object = { key4: "bob" },
+				data:Object, id:String = "someid";
+			
+			data = localMix.people_increment("fail");
+			Assert.assertTrue("requires identify() to be called", "error" in data);
+			
+			localMix.identify(id);
+			
+			data = localMix.people_increment('key0', 1);
+			Assert.assertTrue("supports incrementing a single value", objContains(data["$add"], testdata0));
+			Assert.assertEquals("grabs distinct_id", data["$distinct_id"], id);
+			
+			data = localMix.people_increment(testdata1);
+			Assert.assertTrue("supports incrementing with an object", objContains(data["$add"], testdata1));
+			
+			data = localMix.people_increment(testdata2);
+			Assert.assertTrue("supports incrementing multiple keys", objContains(data["$add"], testdata2));
+			
+			data = localMix.people_increment(baddata);
+			Assert.assertTrue("strips bad values from props", !("key4" in data["$add"]));
+		}
+		
+		[Test(description="people_delete")]
+		public function people_delete():void {
+			var data:Object, id:String = "someid";
+			
+			data = localMix.people_delete();
+			Assert.assertTrue("requires identify() to be called", "error" in data);
+			
+			localMix.identify(id);
+			
+			data = localMix.people_delete();
+			Assert.assertEquals("supports deleting a user", data["$delete"], id);
+			Assert.assertEquals("grabs distinct_id", data["$distinct_id"], id);
 		}
 	}
 }

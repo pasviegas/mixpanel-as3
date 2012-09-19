@@ -9,14 +9,37 @@
 			   minWidth="955" minHeight="600" creationComplete="onCreationComplete()">
 	<fx:Script>
 		<![CDATA[
-			import com.mixpanel.MixpanelTestSuite;
+			import com.mixpanel.StorageBackendTest;
 			import com.mixpanel.MixpanelTest;
+			import org.flexunit.runner.Request;
 			
 			public function currentRunTestSuite():Array
 			{
 				var testsToRun:Array = new Array();
-				testsToRun.push(com.mixpanel.MixpanelTest);
-				testsToRun.push(com.mixpanel.MixpanelTestSuite);
+				
+				testsToRun.push(Request.methods(com.mixpanel.MixpanelTest,["track_super_properties",
+					"name_tag",
+					"disable_events_from_firing",
+					"sets_distinct_id",
+					"set_config",
+					"storage_upgrade",
+					"load_save_data",
+					"identify",
+					"people_delete",
+					"track_api_down",
+					"people_increment",
+					"track_manual_override",
+					"track",
+					"people_set",
+					"register_once",
+					"track_types",
+					"get_property",
+					"register",
+					"unregister"]));
+				
+				testsToRun.push(Request.methods(com.mixpanel.StorageBackendTest,["test_cookie_backend",
+					"test_shared_object_backend",
+					"test_non_persistent_backend"]));
 				return testsToRun;
 			}
 			

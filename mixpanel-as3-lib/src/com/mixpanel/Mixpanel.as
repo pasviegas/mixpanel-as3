@@ -13,7 +13,7 @@ package com.mixpanel
 	
 	/**
 	 * Mixpanel AS3 API
-	 * <p>Version 2.0.2</p>
+	 * <p>Version 2.0.3</p>
 	 */
 	
 	public class Mixpanel
@@ -51,16 +51,21 @@ package com.mixpanel
 			var protocol:String = _.browserProtocol();
 			
 			config = _.extend({}, defaultConfig, {
-				apiHost: protocol + '//api.mixpanel.com/track/',
+				apiHost: protocol + '//api.mixpanel.com/',
 				storageName: "mp_" + token,
 				token: token
 			});
 			
 			storage = new Storage(config);
+			
+			// generate a distinct_id at instance creation
+			// the user should override this id with identify()
+			// if they want to set their own id
+			this.register_once({ 'distinct_id': _.UUID() }, "");
 		}
 		
-		private function sendRequest(data:*, callback:Function=null):void {			
-			var request:URLRequest = new URLRequest(config.apiHost);
+		private function sendRequest(endpoint:String, data:*, callback:Function=null):void {			
+			var request:URLRequest = new URLRequest(config.apiHost + endpoint);
 			request.method = URLRequestMethod.GET;
 			var params:URLVariables = new URLVariables();
 			
@@ -126,8 +131,6 @@ package com.mixpanel
 			properties["time"] = _.getUnixTime();
 			properties["mp_lib"] = "as3";
 
-			this.register_once({ 'distinct_id': _.UUID() }, "");
-
 			properties = storage.safeMerge(properties);
 
 			var data:Object = {
@@ -139,7 +142,7 @@ package com.mixpanel
 				jsonData:String = _.jsonEncode(truncatedData),
 				encodedData:String = _.base64Encode(jsonData);
 			
-			sendRequest(
+			sendRequest("track",
 				{
 					"data": encodedData,
 					"ip": 1
@@ -208,6 +211,30 @@ package com.mixpanel
 		}
 		
 		/**
+		 * Get the value of a super property by the property name.
+		 *  
+		 * @param property the name of the super property to retrieve
+		 * @return the value of the super property
+		 * 
+		 */
+		public function get_property(property:String):*
+		{
+			return storage.get(property);
+		}
+		
+		/**
+		 * Get the unique ID assigned to the user. This ID is
+		 * automatically assigned unless you specify your own via
+		 * identify().
+		 * 
+		 * @return the current distinct_id
+		 */
+		public function get_distinct_id():String
+		{
+			return get_property('distinct_id') as String;
+		}
+		
+		/**
 		 * Identify a user with a unique id.  All subsequent
 	     * actions caused by this user will be tied to this identity.  This
 	     * property is used to track unique visitors.  If the method is
@@ -253,12 +280,7 @@ package com.mixpanel
 		 * </pre>
 		 */
 		public function people_set(...args):Object
-		{
-			if (!storage.has("distinct_id")) {
-				trace("Error: identify() must be called before people_set can be used");
-				return { "error": "identify() must be called before people_set can be used" };
-			}
-			
+		{			
 			var $set:Object = {}, callback:Function = null;
 			
 			if (args[0] is String) {
@@ -283,7 +305,7 @@ package com.mixpanel
 				jsonData:String = _.jsonEncode(truncatedData),
 				encodedData:String = _.base64Encode(jsonData);
 			
-			sendRequest(
+			sendRequest("engage",
 				{
 					"data": encodedData,
 					"ip": 1
@@ -317,12 +339,7 @@ package com.mixpanel
 		 * </pre>
 		 */
 		public function people_increment(...args):Object
-		{
-			if (!storage.has("distinct_id")) {
-				trace("Error: identify() must be called before people_increment can be used");
-				return { "error": "identify() must be called before people_increment can be used" };
-			}
-			
+		{			
 			var props:Object = {}, callback:Function = null;
 			
 			if (args[0] is String) {
@@ -350,7 +367,7 @@ package com.mixpanel
 				jsonData:String = _.jsonEncode(truncatedData),
 				encodedData:String = _.base64Encode(jsonData);
 			
-			sendRequest(
+			sendRequest("engage",
 				{
 					"data": encodedData,
 					"ip": 1
@@ -371,12 +388,7 @@ package com.mixpanel
 		 * </pre>
 		 */
 		public function people_delete(...args):Object
-		{
-			if (!storage.has("distinct_id")) {
-				trace("Error: identify() must be called before people_delete can be used");
-				return { "error": "identify() must be called before people_delete can be used" };
-			}
-			
+		{			
 			var callback:Function = null;
 			if (args[0] is Function) {
 				callback = args[0];
@@ -392,7 +404,7 @@ package com.mixpanel
 				jsonData:String = _.jsonEncode(truncatedData),
 				encodedData:String = _.base64Encode(jsonData);
 			
-			sendRequest(
+			sendRequest("engage",
 				{
 					"data": encodedData,
 					"ip": 1

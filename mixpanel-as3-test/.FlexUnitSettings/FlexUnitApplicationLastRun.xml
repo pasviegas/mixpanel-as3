@@ -1,32 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testrun name="" >
 <testsuite  name="Default Test Suite" project="mixpanel-as3-test">
-<testsuite name="com.mixpanel:MixpanelTest" type="testcaseclass">
-<testcase name="track_super_properties" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="name_tag" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="disable_events_from_firing" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="sets_distinct_id" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="set_config" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="storage_upgrade" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="load_save_data" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="identify" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="people_delete" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="track_api_down" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="people_increment" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="track_manual_override" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="track" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="people_set" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="register_once" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="track_types" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="get_property" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="register" classname="com.mixpanel:MixpanelTest"/>
-<testcase name="unregister" classname="com.mixpanel:MixpanelTest"/>
-</testsuite>
-<testsuite name="com.mixpanel:StorageBackendTest" type="testcaseclass">
-<testcase name="test_cookie_backend" classname="com.mixpanel:StorageBackendTest"/>
-<testcase name="test_shared_object_backend" classname="com.mixpanel:StorageBackendTest"/>
-<testcase name="test_non_persistent_backend" classname="com.mixpanel:StorageBackendTest"/>
-</testsuite>
+<testsuite name="com.mixpanel:MixpanelTestSuite" type="testsuiteclass"/>
+<testsuite name="com.mixpanel:MixpanelTest" type="testcaseclass"/>
 </testsuite>
 <portNumber value="8765" />
 </testrun>

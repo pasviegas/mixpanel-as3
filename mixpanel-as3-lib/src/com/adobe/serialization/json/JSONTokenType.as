@@ -36,8 +36,6 @@ package com.adobe.serialization.json
 	/**
 	 * Class containing constant values for the different types
 	 * of tokens in a JSON encoded string.
-	 * 
-	 * @private
 	 */
 	public final class JSONTokenType
 	{

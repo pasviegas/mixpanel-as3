@@ -34,7 +34,7 @@ package com.adobe.serialization.json
 {
 	
 	/**
-	 * @private
+	 *
 	 *
 	 */
 	public class JSONParseError extends Error

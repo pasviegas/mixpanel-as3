@@ -32,11 +32,7 @@
 
 package com.adobe.serialization.json
 {
-	/**
-	 *  
-	 * @private
-	 * 
-	 */	
+	
 	public final class JSONToken
 	{
 		

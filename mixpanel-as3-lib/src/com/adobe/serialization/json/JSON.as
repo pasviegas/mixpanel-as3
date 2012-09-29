@@ -44,8 +44,6 @@ package com.adobe.serialization.json
 	 *		// read a JSON string into an internal object
 	 *		var myObject:Object = JSON.decode( jsonString );
 	 *	</code>
-	 * 
-	 * @private
 	 */
 	public final class JSON
 	{

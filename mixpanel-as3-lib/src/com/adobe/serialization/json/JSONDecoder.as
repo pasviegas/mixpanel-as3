@@ -32,10 +32,7 @@
 
 package com.adobe.serialization.json
 {
-	/**
-	 *	@private 
-	 * 
-	 */	
+	
 	public class JSONDecoder
 	{
 		

@@ -95,6 +95,17 @@ package com.mixpanel
 			});
 		}
 		
+		[Test(async, description="check unicode support")]
+		public function track_unicode():void {
+			var asyncID:int = asyncHandler(function(resp:String):void {
+				Assert.assertEquals("server returned success", resp, "1");
+			});
+			
+			mixpanel.track("üñîçødé", {"kë¥": "√ål"}, function(resp:String):void {
+				start(asyncID, resp);
+			});
+		}
+		
 		[Test(async, description="track should fail gracefully if api is down")]
 		public function track_api_down():void {
 			var asyncID:int = asyncHandler(function(resp:String):void {

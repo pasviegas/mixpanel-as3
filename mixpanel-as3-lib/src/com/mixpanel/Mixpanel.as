@@ -64,13 +64,19 @@ package com.mixpanel
 			this.register_once({ 'distinct_id': _.UUID() }, "");
 		}
 		
-		private function sendRequest(endpoint:String, data:*, callback:Function=null):void {			
+		private function sendRequest(endpoint:String, data:Object, callback:Function=null):Object {			
 			var request:URLRequest = new URLRequest(config.apiHost + endpoint);
 			request.method = URLRequestMethod.GET;
 			var params:URLVariables = new URLVariables();
 			
-			params = _.extend(params, data, {
-				_: new Date().time.toString()
+			var truncatedData:Object = _.truncate(data, 255),
+				jsonData:String = _.jsonEncode(truncatedData),
+				encodedData:String = _.base64Encode(jsonData);
+			
+			params = _.extend(params, {
+				_: new Date().time.toString(),
+				data: encodedData,
+				ip: 1
 			});
 			if (config["test"]) { params["test"] = 1; }
 			
@@ -92,6 +98,8 @@ package com.mixpanel
 				});
 			
 			loader.load(request);
+			
+			return truncatedData;
 		}
 		
 		
@@ -138,19 +146,7 @@ package com.mixpanel
 				"properties": properties
 			};
 			
-			var truncatedData:Object = _.truncate(data, 255),
-				jsonData:String = _.jsonEncode(truncatedData),
-				encodedData:String = _.base64Encode(jsonData);
-			
-			sendRequest("track",
-				{
-					"data": encodedData,
-					"ip": 1
-				},
-				callback
-			);
-			
-			return truncatedData;
+			return sendRequest("track", data, callback);
 		}
 		
 		/**
@@ -301,19 +297,7 @@ package com.mixpanel
 				"$distinct_id": storage.get("distinct_id")
 			};
 			
-			var truncatedData:Object = _.truncate(data, 255),
-				jsonData:String = _.jsonEncode(truncatedData),
-				encodedData:String = _.base64Encode(jsonData);
-			
-			sendRequest("engage",
-				{
-					"data": encodedData,
-					"ip": 1
-				},
-				callback
-			);
-			
-			return truncatedData;
+			return sendRequest("engage", data, callback);
 		}
 		
 		/**
@@ -363,19 +347,7 @@ package com.mixpanel
 				"$distinct_id": storage.get("distinct_id")
 			};
 			
-			var truncatedData:Object = _.truncate(data, 255),
-				jsonData:String = _.jsonEncode(truncatedData),
-				encodedData:String = _.base64Encode(jsonData);
-			
-			sendRequest("engage",
-				{
-					"data": encodedData,
-					"ip": 1
-				},
-				callback
-			);
-			
-			return truncatedData;
+			return sendRequest("engage", data, callback);
 		}
 		
 		/**
@@ -400,19 +372,7 @@ package com.mixpanel
 				"$distinct_id": storage.get("distinct_id")
 			};
 			
-			var truncatedData:Object = _.truncate(data, 255),
-				jsonData:String = _.jsonEncode(truncatedData),
-				encodedData:String = _.base64Encode(jsonData);
-			
-			sendRequest("engage",
-				{
-					"data": encodedData,
-					"ip": 1
-				},
-				callback
-			);
-			
-			return truncatedData;
+			return sendRequest("engage", data, callback);
 		}
 
 		/**

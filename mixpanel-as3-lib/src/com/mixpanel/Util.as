@@ -20,10 +20,6 @@ package com.mixpanel
 			base64Instance = new Base64Encoder();
 		}
 		
-		public function getUnixTime():int {
-			return parseInt(new Date().time.toString().substring(0, 10), 10);
-		}
-		
 		public function jsonEncode(o:Object):String
 		{
 			return new JSONEncoder(o).getString();

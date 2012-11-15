@@ -136,7 +136,6 @@ package com.mixpanel
 			properties = properties ? _.extend({}, properties) : {};
 
 			if (!properties["token"]) { properties.token = config.token; }
-			properties["time"] = _.getUnixTime();
 			properties["mp_lib"] = "as3";
 
 			properties = storage.safeMerge(properties);

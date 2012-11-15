@@ -13,7 +13,7 @@ package com.mixpanel
 	
 	/**
 	 * Mixpanel AS3 API
-	 * <p>Version 2.0.4</p>
+	 * <p>Version 2.0.5</p>
 	 */
 	
 	public class Mixpanel
@@ -136,7 +136,6 @@ package com.mixpanel
 			properties = properties ? _.extend({}, properties) : {};
 
 			if (!properties["token"]) { properties.token = config.token; }
-			properties["time"] = _.getUnixTime();
 			properties["mp_lib"] = "as3";
 
 			properties = storage.safeMerge(properties);

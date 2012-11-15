@@ -223,7 +223,6 @@ package com.mixpanel
 				dp:Object = data.properties;
 			
 			Assert.assertTrue("token included in properties", dp.hasOwnProperty("token"));
-			Assert.assertTrue("time included in properties", dp.hasOwnProperty("time"));
 			Assert.assertTrue("mp_lib included in properties", dp.hasOwnProperty("mp_lib"));
 			Assert.assertEquals("super properties included properly", dp['a'], props['a']);
 			Assert.assertEquals("super properties included properly", dp['c'], props['c']);

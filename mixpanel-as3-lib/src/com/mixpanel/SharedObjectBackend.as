@@ -61,6 +61,11 @@ package com.mixpanel
 			save();
 		}
 		
+		public function clear():void {
+			sharedObject.clear();
+			save();
+		}
+		
 		public function get data():Object {
 			return sharedObject.data;
 		}

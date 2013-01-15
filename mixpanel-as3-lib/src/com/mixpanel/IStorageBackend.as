@@ -12,6 +12,7 @@ package com.mixpanel
 		function get(key:String):*;
 		function set(key:String, val:*, save:Boolean=true):void;
 		function del(key:String):void;
+		function clear():void;
 		
 		function get data():Object;
 	}

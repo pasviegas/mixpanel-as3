@@ -289,6 +289,19 @@ package com.mixpanel
 			Assert.assertFalse("empty after unregistering", localMix.storage.has("hi"));
 		}
 		
+		[Test(description="unregister_all()")]
+		public function unregister_all():void {
+			var props:Object = {'test1': 'val', 'test2': 123};
+			
+			localMix.register(props);
+			
+			Assert.assertTrue("props set properly", localMix.storage.has("test1") && localMix.storage.has('test2'));
+			
+			localMix.unregister_all();
+			
+			Assert.assertFalse("empty after unregistering", localMix.storage.has("test1") || localMix.storage.has('test2'));
+		}
+		
 		[Test(description="get_property()")]
 		public function get_property():void {
 			var props:Object = {'hi': 'there'};

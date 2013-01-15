@@ -13,7 +13,7 @@ package com.mixpanel
 	
 	/**
 	 * Mixpanel AS3 API
-	 * <p>Version 2.0.6</p>
+	 * <p>Version 2.0.7</p>
 	 */
 	
 	public class Mixpanel
@@ -203,6 +203,17 @@ package com.mixpanel
 		public function unregister(property:String):void
 		{
 			storage.unregister(property);
+		}
+		
+		/**
+		 * Delete all super properties stored for the current user.
+		 * 
+		 * <p><strong>THIS IS UNREVERSABLE!  Be careful.</strong></p>
+		 * 
+		 */		
+		public function unregister_all():void
+		{
+			storage.unregister_all();
 		}
 		
 		/**

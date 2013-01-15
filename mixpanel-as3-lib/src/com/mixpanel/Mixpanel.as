@@ -350,6 +350,61 @@ package com.mixpanel
 		}
 		
 		/**
+		 * Record that you have charged the current user a certain amount of money.
+		 * 
+		 * <p>Usage:</p>
+		 * 
+		 * <pre>
+		 * 		// charge a user $29.99
+		 * 		mixpanel.people_track_charge(29.99);
+		 * 
+		 * 		// charge a user $10 on the 2nd of January
+		 * 		mixpanel.people_track_charge(10, { '$time': '2012-01-02T00:00:00' });
+		 * </pre>
+		 */
+		public function people_track_charge(amount:Number, ...args):Object
+		{			
+			var props:Object = {}, callback:Function = null;
+			
+			// get optional arguments
+			if (args[0] is Object) { props = args[0]; } 
+			if (args[args.length-1] is Function) { callback = args[args.length-1]; }
+			
+			props["$amount"] = amount;
+			
+			var data:Object = {
+				"$append": { "$transactions": props },
+				"$token": config.token,
+				"$distinct_id": storage.get("distinct_id")
+			};
+			
+			return sendRequest("engage", data, callback);
+		}
+		
+		/**
+		 * Clear all the current user's transactions.
+		 * 
+		 * <p>Usage:</p>
+		 * 
+		 * <pre>
+		 * 		mixpanel.people_clear_charges();
+		 * </pre>
+		 */
+		public function people_clear_charges(...args):Object
+		{			
+			var callback:Function = null;
+			if (args[args.length-1] is Function) { callback = args[args.length-1]; }
+			
+			var data:Object = {
+				"$set": { "$transactions": [] },
+				"$token": config.token,
+				"$distinct_id": storage.get("distinct_id")
+			};
+			
+			return sendRequest("engage", data, callback);
+		}
+		
+		/**
 		 * delete the current user record (using current distinct_id)
 		 * 
 		 * <p>Usage:</p>

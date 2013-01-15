@@ -384,6 +384,28 @@ package com.mixpanel
 			Assert.assertTrue("strips bad values from props", !("key4" in data["$add"]));
 		}
 		
+		[Test(description="people_track_charge")]
+		public function people_track_charge():void {
+			var test0:Object = { '$amount': 50 },
+				test1props:Object = { '$time': '2012-01-02T00:00:00', 'sku': 'asjdefjiwjv' }, 
+				data:Object;
+			
+			data = localMix.people_track_charge(test0['$amount']);
+			Assert.assertTrue("supports charging the user an amount", objEquals(data["$append"]["$transactions"], test0));
+			
+			data = localMix.people_track_charge(10, test1props);
+			test1props['$amount'] = 10;
+			Assert.assertTrue("supports passing in properties including $time", objEquals(data["$append"]["$transactions"], test1props));
+		}
+		
+		[Test(description="people_clear_charges")]
+		public function people_clear_charges():void {
+			var data:Object;
+			
+			data = localMix.people_clear_charges();
+			Assert.assertTrue("supports clearing a user's charges", objEquals(data['$set'], { '$transactions': [] }));
+		}
+		
 		[Test(description="people_delete")]
 		public function people_delete():void {
 			var data:Object, id:String = "someid";

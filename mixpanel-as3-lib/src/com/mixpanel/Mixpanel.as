@@ -370,6 +370,7 @@ package com.mixpanel
 		 * 		mixpanel.people_track_charge(29.99);
 		 * 
 		 * 		// charge a user $10 on the 2nd of January
+		 * 	    // Note: $time must be a valid ISO datetime string
 		 * 		mixpanel.people_track_charge(10, { '$time': '2012-01-02T00:00:00' });
 		 * </pre>
 		 */

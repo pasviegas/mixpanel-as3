@@ -72,6 +72,10 @@ package com.mixpanel
 			backend.del(property);
 		}
 		
+		public function unregister_all():void {
+			backend.clear();
+		}
+		
 		public function safeMerge(properties:Object):Object {
 			for (var key:String in backend.data) {
 				if (!properties[key]) { properties[key] = backend.get(key); }

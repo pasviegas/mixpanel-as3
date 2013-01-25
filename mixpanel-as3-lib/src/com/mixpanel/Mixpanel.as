@@ -13,7 +13,7 @@ package com.mixpanel
 	
 	/**
 	 * Mixpanel AS3 API
-	 * <p>Version 2.0.5</p>
+	 * <p>Version 2.0.7</p>
 	 */
 	
 	public class Mixpanel
@@ -206,6 +206,17 @@ package com.mixpanel
 		}
 		
 		/**
+		 * Delete all super properties stored for the current user.
+		 * 
+		 * <p><strong>THIS IS UNREVERSABLE!  Be careful.</strong></p>
+		 * 
+		 */		
+		public function unregister_all():void
+		{
+			storage.unregister_all();
+		}
+		
+		/**
 		 * Get the value of a super property by the property name.
 		 *  
 		 * @param property the name of the super property to retrieve
@@ -342,6 +353,62 @@ package com.mixpanel
 			
 			var data:Object = {
 				"$add": $add,
+				"$token": config.token,
+				"$distinct_id": storage.get("distinct_id")
+			};
+			
+			return sendRequest("engage", data, callback);
+		}
+		
+		/**
+		 * Record that you have charged the current user a certain amount of money.
+		 * 
+		 * <p>Usage:</p>
+		 * 
+		 * <pre>
+		 * 		// charge a user $29.99
+		 * 		mixpanel.people_track_charge(29.99);
+		 * 
+		 * 		// charge a user $10 on the 2nd of January
+		 * 	    // Note: $time must be a valid ISO datetime string
+		 * 		mixpanel.people_track_charge(10, { '$time': '2012-01-02T00:00:00' });
+		 * </pre>
+		 */
+		public function people_track_charge(amount:Number, ...args):Object
+		{			
+			var props:Object = {}, callback:Function = null;
+			
+			// get optional arguments
+			if (args[0] is Object) { props = args[0]; } 
+			if (args[args.length-1] is Function) { callback = args[args.length-1]; }
+			
+			props["$amount"] = amount;
+			
+			var data:Object = {
+				"$append": { "$transactions": props },
+				"$token": config.token,
+				"$distinct_id": storage.get("distinct_id")
+			};
+			
+			return sendRequest("engage", data, callback);
+		}
+		
+		/**
+		 * Clear all the current user's transactions.
+		 * 
+		 * <p>Usage:</p>
+		 * 
+		 * <pre>
+		 * 		mixpanel.people_clear_charges();
+		 * </pre>
+		 */
+		public function people_clear_charges(...args):Object
+		{			
+			var callback:Function = null;
+			if (args[args.length-1] is Function) { callback = args[args.length-1]; }
+			
+			var data:Object = {
+				"$set": { "$transactions": [] },
 				"$token": config.token,
 				"$distinct_id": storage.get("distinct_id")
 			};

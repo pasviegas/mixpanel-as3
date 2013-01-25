@@ -2,7 +2,7 @@
 <testrun name="" >
 <testsuite  name="Default Test Suite" project="mixpanel-as3-test">
 <testsuite name="com.mixpanel:MixpanelTestSuite" type="testsuiteclass"/>
-<testsuite name="com.mixpanel:MixpanelTest" type="testcaseclass"/>
+<testsuite name="com.mixpanel:StorageBackendTest" type="testcaseclass"/>
 </testsuite>
 <portNumber value="8765" />
 </testrun>

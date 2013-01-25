@@ -41,6 +41,10 @@ package com.mixpanel
 			delete o[key];
 		}
 		
+		public function clear():void {
+			this.o = {};
+		}
+		
 		public function get data():Object {
 			return o;
 		}

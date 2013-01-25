@@ -112,6 +112,11 @@ package com.mixpanel
 			save();
 		}
 		
+		public function clear():void {
+			this.o = {};
+			save();
+		}
+		
 		public function get data():Object {
 			return o;
 		}

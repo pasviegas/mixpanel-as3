@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><!-- saved from url=(0014)about:internet --><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="../../style.css" type="text/css" media="screen"><link rel="stylesheet" href="../../print.css" type="text/css" media="print"><link rel="stylesheet" href="../../override.css" type="text/css"><meta name="keywords" content="Mixpanel,com.mixpanel.Mixpanel,disable,get_distinct_id,get_property,identify,name_tag,people_delete,people_increment,people_set,register,register_once,set_config,track,unregister"><title>com.mixpanel.Mixpanel</title></head><body><script language="javascript" type="text/javascript" src="../../asdoc.js"></script><script language="javascript" type="text/javascript" src="../../help.js"></script><script language="javascript" type="text/javascript" src="../../cookies.js"></script><script language="javascript" type="text/javascript"><!--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><!-- saved from url=(0014)about:internet --><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="../../style.css" type="text/css" media="screen"><link rel="stylesheet" href="../../print.css" type="text/css" media="print"><link rel="stylesheet" href="../../override.css" type="text/css"><meta name="keywords" content="Mixpanel,com.mixpanel.Mixpanel,disable,get_distinct_id,get_property,identify,name_tag,people_clear_charges,people_delete,people_increment,people_set,people_track_charge,register,register_once,set_config,track,unregister,unregister_all"><title>com.mixpanel.Mixpanel</title></head><body><script language="javascript" type="text/javascript" src="../../asdoc.js"></script><script language="javascript" type="text/javascript" src="../../help.js"></script><script language="javascript" type="text/javascript" src="../../cookies.js"></script><script language="javascript" type="text/javascript"><!--
 				asdocTitle = 'Mixpanel - Mixpanel AS3 Library';
 				var baseRef = '../../';
 				window.onload = configPage;
@@ -12,7 +12,7 @@
 				-->
 			</script><div xmlns:fn="http://www.w3.org/2005/xpath-functions" class="MainContent"><table class="classHeaderTable" cellpadding="0" cellspacing="0"><tr><td class="classHeaderTableLabel">Package</td><td><a href="package-detail.html" onclick="javascript:loadClassListFrame('class-list.html')">com.mixpanel</a></td></tr><tr><td class="classHeaderTableLabel">Class</td><td class="classSignature">public  class  Mixpanel</td></tr><tr><td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">Mixpanel  <img src="../../images/inherit-arrow.gif" title="Inheritance" alt="Inheritance" class="inheritArrow"> Object</td></tr></table><p></p><p></p><p></p>
 	 Mixpanel AS3 API
-	 <p>Version 2.0.5</p>
+	 <p>Version 2.0.7</p>
 	           <p></p><br/><hr></div><a name="methodSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Methods </div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableMethod"><tr><th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#Mixpanel()" class="signatureLink">Mixpanel</a>(token:String)</div><div class="summaryTableDescription">
 		 Create an instance of the Mixpanel library 
 		 
@@ -21,7 +21,8 @@
 		 Get the unique ID assigned to the user.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#get_property()" class="signatureLink">get_property</a>(property:String):*</div><div class="summaryTableDescription">
 		 Get the value of a super property by the property name.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#identify()" class="signatureLink">identify</a>(uniqueID:String):void</div><div class="summaryTableDescription">
 		 Identify a user with a unique id.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#name_tag()" class="signatureLink">name_tag</a>(name:String):void</div><div class="summaryTableDescription">
-		 Provide a string to recognize the user by.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#people_delete()" class="signatureLink">people_delete</a>(... args):Object</div><div class="summaryTableDescription">
+		 Provide a string to recognize the user by.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#people_clear_charges()" class="signatureLink">people_clear_charges</a>(... args):Object</div><div class="summaryTableDescription">
+		 Clear all the current user's transactions.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#people_delete()" class="signatureLink">people_delete</a>(... args):Object</div><div class="summaryTableDescription">
 		 delete the current user record (using current distinct_id)
 		 
 		 Usage:
@@ -65,13 +66,15 @@
 		 
 		 		// properties can be strings, integers or dates
 		 
-		 </div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#register()" class="signatureLink">register</a>(properties:Object):void</div><div class="summaryTableDescription">
+		 </div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#people_track_charge()" class="signatureLink">people_track_charge</a>(amount:Number, ... args):Object</div><div class="summaryTableDescription">
+		 Record that you have charged the current user a certain amount of money.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#register()" class="signatureLink">register</a>(properties:Object):void</div><div class="summaryTableDescription">
   		 Register a set of super properties, which are included with all
 	     events/funnels.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#register_once()" class="signatureLink">register_once</a>(properties:Object, defaultValue:* = null):void</div><div class="summaryTableDescription">
 		 Register a set of super properties only once.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#set_config()" class="signatureLink">set_config</a>(config:Object):void</div><div class="summaryTableDescription">
 		 Update the configuration of a mixpanel library instance.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#track()" class="signatureLink">track</a>(event:String, ... args):Object</div><div class="summaryTableDescription">
 		 Track an event.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#unregister()" class="signatureLink">unregister</a>(property:String):void</div><div class="summaryTableDescription">
-		 Delete a super property stored with the current user.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr></table></div><script language="javascript" type="text/javascript"><!--
+		 Delete a super property stored with the current user.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#unregister_all()" class="signatureLink">unregister_all</a>():void</div><div class="summaryTableDescription">
+		 Delete all super properties stored for the current user.</div></td><td class="summaryTableOwnerCol">Mixpanel</td></tr></table></div><script language="javascript" type="text/javascript"><!--
 										showHideInherited();
 										--></script><div class="MainContent"><a name="constructorDetail"></a><div class="detailSectionHeader">Constructor Detail</div><a name="Mixpanel()"></a><a name="Mixpanel(String)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">Mixpanel</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">Constructor</td></tr></table><div class="detailBody"><code>public function Mixpanel(token:String)</code><p></p><p>
 		 Create an instance of the Mixpanel library 
@@ -115,7 +118,15 @@
 		  
 		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">name</span>:String</code> &mdash; A human readable name for the user
 		 
-		 </td></tr></table></p></div><a name="people_delete()"></a><a name="people_delete(restParam)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">people_delete</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function people_delete(... args):Object</code><p></p><p></p><p>
+		 </td></tr></table></p></div><a name="people_clear_charges()"></a><a name="people_clear_charges(restParam)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">people_clear_charges</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function people_clear_charges(... args):Object</code><p></p><p></p><p>
+		 Clear all the current user's transactions.
+		 
+		 <p>Usage:</p>
+		 
+		 <pre>
+		 		mixpanel.people_clear_charges();
+		 </pre>
+		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code>... <span class="label">args</span></code></td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>Object</code></td></tr></table></div><a name="people_delete()"></a><a name="people_delete(restParam)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">people_delete</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function people_delete(... args):Object</code><p></p><p></p><p>
 		 delete the current user record (using current distinct_id)
 		 
 		 <p>Usage:</p>
@@ -159,7 +170,20 @@
 		 
 		 		// properties can be strings, integers or dates
 		 </pre>
-		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code>... <span class="label">args</span></code></td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>Object</code></td></tr></table></div><a name="register()"></a><a name="register(Object)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">register</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function register(properties:Object):void</code><p></p><p></p><p>
+		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code>... <span class="label">args</span></code></td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>Object</code></td></tr></table></div><a name="people_track_charge()"></a><a name="people_track_charge(Number,restParam)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">people_track_charge</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function people_track_charge(amount:Number, ... args):Object</code><p></p><p></p><p>
+		 Record that you have charged the current user a certain amount of money.
+		 
+		 <p>Usage:</p>
+		 
+		 <pre>
+		 		// charge a user $29.99
+		 		mixpanel.people_track_charge(29.99);
+		 
+		 		// charge a user $10 on the 2nd of January
+		 	    // Note: $time must be a valid ISO datetime string
+		 		mixpanel.people_track_charge(10, { '$time': '2012-01-02T00:00:00' });
+		 </pre>
+		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">amount</span>:Number</code></td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code>... <span class="label">args</span></code></td></tr></table></p><p></p><span class="label">Returns</span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20"></td><td><code>Object</code></td></tr></table></div><a name="register()"></a><a name="register(Object)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">register</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function register(properties:Object):void</code><p></p><p></p><p>
   		 Register a set of super properties, which are included with all
 	     events/funnels.  This will overwrite previous super property
 	     values.  It is mutable unlike register_once.
@@ -204,4 +228,9 @@
 		  
 		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">property</span>:String</code> &mdash; the name of the super property to remove
 		 
-		 </td></tr></table></p></div><br/><br/><hr><br/><p></p><center class="copyright"><footer></footer><br/>Wed Nov 14 2012, 08:04 PM -08:00  </center></div></body></html><!--<br/>Wed Nov 14 2012, 08:04 PM -08:00  -->
+		 </td></tr></table></p></div><a name="unregister_all()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">unregister_all</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function unregister_all():void</code><p></p><p></p><p>
+		 Delete all super properties stored for the current user.
+		 
+		 <p><b>THIS IS UNREVERSABLE!  Be careful.</b></p>
+		 
+		 </p></div><br/><br/><hr><br/><p></p><center class="copyright"><footer></footer><br/>Thu Jan 24 2013, 04:05 PM -08:00  </center></div></body></html><!--<br/>Thu Jan 24 2013, 04:05 PM -08:00  -->

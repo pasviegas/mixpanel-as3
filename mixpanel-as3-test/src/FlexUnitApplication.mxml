@@ -9,16 +9,16 @@
 			   minWidth="955" minHeight="600" creationComplete="onCreationComplete()">
 	<fx:Script>
 		<![CDATA[
-			import com.mixpanel.StorageBackendTest;
 			import com.mixpanel.MixpanelTest;
 			import com.mixpanel.MixpanelTestSuite;
+			import com.mixpanel.StorageBackendTest;
 			
 			public function currentRunTestSuite():Array
 			{
 				var testsToRun:Array = new Array();
 				testsToRun.push(com.mixpanel.MixpanelTestSuite);
-				testsToRun.push(com.mixpanel.MixpanelTest);
 				testsToRun.push(com.mixpanel.StorageBackendTest);
+				testsToRun.push(com.mixpanel.MixpanelTest);
 				return testsToRun;
 			}
 			

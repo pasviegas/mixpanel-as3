@@ -1,5 +1,7 @@
+SDK_HOME = /Applications/Adobe\ Flash\ Builder\ 4.7/sdks/4.6.0/
+
 docs:
-	/Applications/Adobe\ Flash\ Builder\ 4.6/sdks/4.6.0/bin/aasdoc		\
+	$(SDK_HOME)/bin/asdoc		\
 		-source-path ./mixpanel-as3-lib/src								\
 		-doc-sources ./mixpanel-as3-lib/src/com/mixpanel/Mixpanel.as	\
 		-output ./mixpanel-as3-lib/docs 								\

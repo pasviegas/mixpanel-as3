@@ -13,7 +13,7 @@ package com.mixpanel
 	
 	/**
 	 * Mixpanel AS3 API
-	 * <p>Version 2.0.7</p>
+	 * <p>Version 2.2.0</p>
 	 */
 	
 	public class Mixpanel

@@ -79,6 +79,8 @@ package com.mixpanel
 				ip: 1
 			});
 			if (config["test"]) { params["test"] = 1; }
+			if (config["verbose"]) { params["verbose"] = 1; }
+			if (config["request_method"]) { request.method = config["request_method"]; }
 			
 			request.data = params;
 			
@@ -92,7 +94,9 @@ package com.mixpanel
 				});
 			loader.addEventListener(IOErrorEvent.IO_ERROR,
 				function(e:IOErrorEvent):void {
-					if(callback != null) {
+					if ((callback != null) && config["verbose"]) {
+						callback(e.text)
+					} else if (callback != null) {
 						callback(0);
 					}
 				});

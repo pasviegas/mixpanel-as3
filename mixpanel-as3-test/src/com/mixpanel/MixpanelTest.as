@@ -6,6 +6,7 @@ package com.mixpanel
 	import flash.events.EventDispatcher;
 	import flash.events.TimerEvent;
 	import flash.net.SharedObject;
+	import flash.net.URLRequestMethod;
 	import flash.utils.Timer;
 	import flash.utils.getQualifiedClassName;
 	
@@ -83,13 +84,52 @@ package com.mixpanel
 		private function start(id:int, ...args):void {
 			asyncDispatcher.dispatchEvent(new AsyncEvent(id.toString(), args));
 		}
-		
+
 		[Test(async, description="check track callback")]
 		public function track():void {
 			var asyncID:int = asyncHandler(function(resp:String):void {
 				Assert.assertEquals("server returned success", resp, "1");
 			});
+
+			mixpanel.track("test_track", {"hello": "world"}, function(resp:String):void {
+				start(asyncID, resp);
+			});
+		}
+
+		[Test(async, description="test POST tracking")]
+		public function trackPOST():void {
+			var asyncID:int = asyncHandler(function(resp:String):void {
+				Assert.assertEquals("server returned success", resp, "1");
+			});
 			
+			mixpanel.set_config({ "request_method" : URLRequestMethod.POST });
+			mixpanel.track("test_track", {"hello": "world"}, function(resp:String):void {
+				start(asyncID, resp);
+			});
+		}
+
+		[Test(async, description="test verbose tracking")]
+		public function trackVerbose():void {
+			var asyncID:int = asyncHandler(function(resp:String):void {
+				Assert.assertTrue("server returned verbose success", resp.match(/[^"]"status"\s*\:\s*1\b/));
+			});
+
+			mixpanel.set_config({ "verbose" : true });
+			mixpanel.track("test_track", {"hello": "world" }, function(resp:String):void {
+				start(asyncID, resp);
+			});
+		}
+
+		[Test(async, description="test verbose connection errors")]
+		public function trackVerboseConnectionError():void {
+			var asyncID:int = asyncHandler(function(resp:String):void {
+				Assert.assertTrue("Library returned error text", resp.match(/^Error #\d+\:/));
+			});
+
+			mixpanel.set_config({
+				"apiHost": "NOT A VALID URL",
+				"verbose": true
+			});
 			mixpanel.track("test_track", {"hello": "world"}, function(resp:String):void {
 				start(asyncID, resp);
 			});

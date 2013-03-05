@@ -113,7 +113,7 @@ package com.mixpanel
 			var asyncID:int = asyncHandler(function(resp:String):void {
 				var decodedResponse : Object = mixpanelUtil.jsonDecode(resp);
 				
-				Assert.assertEquals("server returned verbose success", 1, decodedResponse.status);
+				Assert.assertEquals("server returned verbose success", decodedResponse.status, 1);
 			});
 
 			mixpanel.set_config({ "verbose" : true });
@@ -127,7 +127,7 @@ package com.mixpanel
 			var asyncID:int = asyncHandler(function(resp:String):void {
 				var decodedResponse : Object = mixpanelUtil.jsonDecode(resp);
 				
-				Assert.assertEquals("Library returned a 0 status", 0, decodedResponse.status);
+				Assert.assertEquals("Library returned a 0 status", decodedResponse.status, 0);
 				Assert.assertTrue("Library returned error event text", decodedResponse.error.match(/^Error #\d+\:/));
 			});
 

@@ -111,7 +111,9 @@ package com.mixpanel
 		[Test(async, description="test verbose tracking")]
 		public function trackVerbose():void {
 			var asyncID:int = asyncHandler(function(resp:String):void {
-				Assert.assertTrue("server returned verbose success", resp.match(/[^"]"status"\s*\:\s*1\b/));
+				var decodedResponse : Object = mixpanelUtil.jsonDecode(resp);
+				
+				Assert.assertEquals("server returned verbose success", 1, decodedResponse.status);
 			});
 
 			mixpanel.set_config({ "verbose" : true });
@@ -123,7 +125,10 @@ package com.mixpanel
 		[Test(async, description="test verbose connection errors")]
 		public function trackVerboseConnectionError():void {
 			var asyncID:int = asyncHandler(function(resp:String):void {
-				Assert.assertTrue("Library returned error text", resp.match(/^Error #\d+\:/));
+				var decodedResponse : Object = mixpanelUtil.jsonDecode(resp);
+				
+				Assert.assertEquals("Library returned a 0 status", 0, decodedResponse.status);
+				Assert.assertTrue("Library returned error event text", decodedResponse.error.match(/^Error #\d+\:/));
 			});
 
 			mixpanel.set_config({
@@ -221,6 +226,43 @@ package com.mixpanel
 			});
 			mp.track("event_c", function(resp:String):void {
 				Assert.assertEquals("track should return an error", resp, 0);
+			});
+		}
+		
+		[Test(async, description="disable() with verbose disables all tracking from firing and returns JSON")]
+		public function disable_withConfigVerbose_returnsJson () : void {
+			localMix.disable();
+			localMix.set_config({verbose: true});
+			
+			localMix.track("e_a", function(resp:String):void {
+				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
+				
+				Assert.assertEquals("track should return an error", decodedResult.status, 0);
+			});
+			
+			var mp:Mixpanel = makeMP();
+			mp.set_config({verbose: true});
+			mp.disable(["event_a"]);
+			mp.disable(["event_c"]);
+			
+			var asyncID:int = asyncHandler(function(resp:String):void {
+				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
+				
+				Assert.assertEquals("server returned success", decodedResult.status, "1");
+			});
+			
+			mp.track("event_a", function(resp:String):void {
+				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
+				
+				Assert.assertEquals("track should return an error", decodedResult.status, 0);
+			});
+			mp.track("event_b", function(resp:String):void {
+				start(asyncID, resp);
+			});
+			mp.track("event_c", function(resp:String):void {
+				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
+				
+				Assert.assertEquals("track should return an error", decodedResult.status, 0);
 			});
 		}
 		

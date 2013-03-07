@@ -463,21 +463,17 @@ package com.mixpanel
 		 *     crossSubdomainStorage: true,
 		 * 
 		 *     // enable test in development mode
-		 *     test: false
+		 *     test: false,
+		 *
+		 * 	   // enable longer, debug-friendly api responses
+		 *     verbose: false,
+		 *
+		 *     // Method to use when sending Mixpanel HTTP API requests,
+		 *     // should be either URLRequestMethod.GET or URLRequestMethod.POST
+		 *     request_method: URLRequestMethod.GET
 		 * };
 		 * </pre>
-		 * 
-		 * <p>You can also set:</p>
-		 * <ul>
-		 *   <li>verbose: The server and this library will return JSON string with two properties:
-		 *     <ul>
-		 *       <li>status: 1 on success or 0 on failure</li>
-		 *       <li>error: null on success or a string describing why the call failed</li>
-		 *     </ul>
-		 *   </li>
-		 *   <li>request_method: The request method to use when sending API requests.  The default is <code>URLRequestMethod.GET</code>.</li>
-		 * </ul>
-		 *  
+		 *
 		 * @param config A dictionary of new configuration values to update
 		 * 
 		 */		

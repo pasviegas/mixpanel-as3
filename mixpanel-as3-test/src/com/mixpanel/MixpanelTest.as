@@ -112,7 +112,6 @@ package com.mixpanel
 		public function trackVerbose():void {
 			var asyncID:int = asyncHandler(function(resp:String):void {
 				var decodedResponse : Object = mixpanelUtil.jsonDecode(resp);
-				
 				Assert.assertEquals("server returned verbose success", decodedResponse.status, 1);
 			});
 
@@ -126,9 +125,7 @@ package com.mixpanel
 		public function trackVerboseConnectionError():void {
 			var asyncID:int = asyncHandler(function(resp:String):void {
 				var decodedResponse : Object = mixpanelUtil.jsonDecode(resp);
-				
 				Assert.assertEquals("Library returned a 0 status", decodedResponse.status, 0);
-				Assert.assertTrue("Library returned error event text", decodedResponse.error.match(/^Error #\d+\:/));
 			});
 
 			mixpanel.set_config({
@@ -205,19 +202,19 @@ package com.mixpanel
 		[Test(async, description="disable() disabled all tracking from firing")]
 		public function disable_events_from_firing():void {
 			localMix.disable();
-			
+
 			localMix.track("e_a", function(resp:String):void {
 				Assert.assertEquals("track should return an error", resp, 0);
 			});
-			
+
 			var mp:Mixpanel = makeMP();
 			mp.disable(["event_a"]);
 			mp.disable(["event_c"]);
-			
+
 			var asyncID:int = asyncHandler(function(resp:String):void {
 				Assert.assertEquals("server returned success", resp, "1");
 			});
-			
+
 			mp.track("event_a", function(resp:String):void {
 				Assert.assertEquals("track should return an error", resp, 0);
 			});

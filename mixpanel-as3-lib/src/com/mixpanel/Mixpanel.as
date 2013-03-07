@@ -95,7 +95,7 @@ package com.mixpanel
 			loader.addEventListener(IOErrorEvent.IO_ERROR,
 				function(e:IOErrorEvent):void {
 					if ((callback != null) && config["verbose"]) {
-						callback(e.text)
+						callback('{"status":0,"error":"' + e.text + '"}');
 					} else if (callback != null) {
 						callback(0);
 					}
@@ -133,9 +133,6 @@ package com.mixpanel
 				}
 			}
 			
-			if (disableAllEvents || disabledEvents.indexOf(event) != -1) {
-				if (callback != null) { return callback(0); }
-			}
 
 			properties = properties ? _.extend({}, properties) : {};
 
@@ -148,6 +145,18 @@ package com.mixpanel
 				"event": event,
 				"properties": properties
 			};
+			
+			if (disableAllEvents || disabledEvents.indexOf(event) != -1) {
+				if (callback != null && config['verbose']) {
+					callback('{"status":0, "error":"Tracking of this event is disabled."}'); 
+				} else if (callback != null) {
+					callback(0);
+				}
+				
+				// tried my best to return data in the same format as sendRequest does
+				// what use case would use that information? 
+				return _.truncate(data, 255);
+			}
 			
 			return sendRequest("track", data, callback);
 		}
@@ -458,6 +467,17 @@ package com.mixpanel
 		 *     test: false
 		 * };
 		 * </pre>
+		 * 
+		 * <p>You can also set:</p>
+		 * <ul>
+		 *   <li>verbose: The server and this library will return JSON string with two properties:
+		 *     <ul>
+		 *       <li>status: 1 on success or 0 on failure</li>
+		 *       <li>error: null on success or a string describing why the call failed</li>
+		 *     </ul>
+		 *   </li>
+		 *   <li>request_method: The request method to use when sending API requests.  The default is <code>URLRequestMethod.GET</code>.</li>
+		 * </ul>
 		 *  
 		 * @param config A dictionary of new configuration values to update
 		 * 

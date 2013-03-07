@@ -88,7 +88,7 @@ package com.mixpanel
 		[Test(async, description="check track callback")]
 		public function track():void {
 			var asyncID:int = asyncHandler(function(resp:String):void {
-				Assert.assertEquals("server returned success", "1", resp);
+				Assert.assertEquals("server returned success", resp, "1");
 			});
 
 			mixpanel.track("test_track", {"hello": "world"}, function(resp:String):void {
@@ -99,7 +99,7 @@ package com.mixpanel
 		[Test(async, description="test POST tracking")]
 		public function trackPOST():void {
 			var asyncID:int = asyncHandler(function(resp:String):void {
-				Assert.assertEquals("server returned success", "1", resp);
+				Assert.assertEquals("server returned success", resp, "1");
 			});
 			
 			mixpanel.set_config({ "request_method" : URLRequestMethod.POST });
@@ -113,7 +113,7 @@ package com.mixpanel
 			var asyncID:int = asyncHandler(function(resp:String):void {
 				var decodedResponse : Object = mixpanelUtil.jsonDecode(resp);
 				
-				Assert.assertEquals("server returned verbose success", 1, decodedResponse.status);
+				Assert.assertEquals("server returned verbose success", decodedResponse.status, 1);
 			});
 
 			mixpanel.set_config({ "verbose" : true });
@@ -127,7 +127,7 @@ package com.mixpanel
 			var asyncID:int = asyncHandler(function(resp:String):void {
 				var decodedResponse : Object = mixpanelUtil.jsonDecode(resp);
 				
-				Assert.assertEquals("Library returned a 0 status", 0, decodedResponse.status);
+				Assert.assertEquals("Library returned a 0 status", decodedResponse.status, 0);
 				Assert.assertTrue("Library returned error event text", decodedResponse.error.match(/^Error #\d+\:/));
 			});
 
@@ -143,7 +143,7 @@ package com.mixpanel
 		[Test(async, description="check unicode support")]
 		public function track_unicode():void {
 			var asyncID:int = asyncHandler(function(resp:String):void {
-				Assert.assertEquals("server returned success", "1", resp);
+				Assert.assertEquals("server returned success", resp, "1");
 			});
 			
 			mixpanel.track("üñîçødé", {"kë¥": "√ål"}, function(resp:String):void {
@@ -154,7 +154,7 @@ package com.mixpanel
 		[Test(async, description="track should fail gracefully if api is down")]
 		public function track_api_down():void {
 			var asyncID:int = asyncHandler(function(resp:String):void {
-				Assert.assertEquals("server returned error", "0", resp);
+				Assert.assertEquals("server returned error", resp, "0");
 			});
 			
 			localMix.set_config({ apiHost: "http://badapiasef.mixpanel.com/track/" });
@@ -199,7 +199,7 @@ package com.mixpanel
 			
 			localMix.identify(id);
 			data = localMix.track("test_distinct_id");
-			Assert.assertEquals("track() should not override an already set distinct id", id, data.properties["distinct_id"]);
+			Assert.assertEquals("track() should not override an already set distinct id", data.properties["distinct_id"], id);
 		}
 		
 		[Test(async, description="disable() disabled all tracking from firing")]
@@ -215,17 +215,17 @@ package com.mixpanel
 			mp.disable(["event_c"]);
 			
 			var asyncID:int = asyncHandler(function(resp:String):void {
-				Assert.assertEquals("server returned success", "1", resp);
+				Assert.assertEquals("server returned success", resp, "1");
 			});
 			
 			mp.track("event_a", function(resp:String):void {
-				Assert.assertEquals("track should return an error", 0, resp);
+				Assert.assertEquals("track should return an error", resp, 0);
 			});
 			mp.track("event_b", function(resp:String):void {
 				start(asyncID, resp);
 			});
 			mp.track("event_c", function(resp:String):void {
-				Assert.assertEquals("track should return an error", 0, resp);
+				Assert.assertEquals("track should return an error", resp, 0);
 			});
 		}
 		
@@ -237,7 +237,7 @@ package com.mixpanel
 			localMix.track("e_a", function(resp:String):void {
 				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
 				
-				Assert.assertEquals("track should return an error", 0, decodedResult.status);
+				Assert.assertEquals("track should return an error", decodedResult.status, 0);
 			});
 			
 			var mp:Mixpanel = makeMP();
@@ -248,13 +248,13 @@ package com.mixpanel
 			var asyncID:int = asyncHandler(function(resp:String):void {
 				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
 				
-				Assert.assertEquals("server returned success", 1, decodedResult.status);
+				Assert.assertEquals("server returned success", decodedResult.status, "1");
 			});
 			
 			mp.track("event_a", function(resp:String):void {
 				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
 				
-				Assert.assertEquals("track should return an error", 0, decodedResult.status);
+				Assert.assertEquals("track should return an error", decodedResult.status, 0);
 			});
 			mp.track("event_b", function(resp:String):void {
 				start(asyncID, resp);
@@ -262,7 +262,7 @@ package com.mixpanel
 			mp.track("event_c", function(resp:String):void {
 				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
 				
-				Assert.assertEquals("track should return an error", 0, decodedResult.status);
+				Assert.assertEquals("track should return an error", decodedResult.status, 0);
 			});
 		}
 		
@@ -290,7 +290,7 @@ package com.mixpanel
 			mp.register({ "test": prop });
 			
 			var mp2:Mixpanel = makeMP(token);
-			Assert.assertEquals("library should load existing shared object", prop, mp2.storage.get("test"));
+			Assert.assertEquals("library should load existing shared object", mp2.storage.get("test"), prop);
 			
 			var mp3:Mixpanel = makeMP();
 			Assert.assertFalse("library should create new shared object", mp3.storage.has("test"));
@@ -306,8 +306,8 @@ package com.mixpanel
 			
 			Assert.assertTrue("token included in properties", dp.hasOwnProperty("token"));
 			Assert.assertTrue("mp_lib included in properties", dp.hasOwnProperty("mp_lib"));
-			Assert.assertEquals("super properties included properly", props['a'], dp['a']);
-			Assert.assertEquals("super properties included properly", props['c'], dp['c']);
+			Assert.assertEquals("super properties included properly", dp['a'], props['a']);
+			Assert.assertEquals("super properties included properly", dp['c'], props['c']);
 		}
 		
 		[Test(description="track() manual props override super props")]
@@ -318,15 +318,15 @@ package com.mixpanel
 			var data:Object = localMix.track('test', { "a": "test" }),
 				dp:Object = data.properties;
 			
-			Assert.assertEquals("manual property overrides successfully", "test", dp["a"]);
-			Assert.assertEquals("other superproperties unnaffected", "d", dp["c"]);
+			Assert.assertEquals("manual property overrides successfully", dp["a"], "test");
+			Assert.assertEquals("other superproperties unnaffected", dp["c"], "d");
 		}
 		
 		[Test(description="set_config works")]
 		public function set_config():void {
-			Assert.assertEquals("config.test is false", false, localMix.config.test);
+			Assert.assertEquals("config.test is false", localMix.config.test, false);
 			localMix.set_config({ test: true });
-			Assert.assertEquals("config.test is true", true, localMix.config.test);
+			Assert.assertEquals("config.test is true", localMix.config.test, true);
 		}
 		
 		[Test(description="register()")]
@@ -353,7 +353,7 @@ package com.mixpanel
 			
 			localMix.register_once(props1);
 			
-			Assert.assertEquals("doesn't override", props["hi"], localMix.storage.get("hi"));
+			Assert.assertEquals("doesn't override", localMix.storage.get("hi"), props["hi"]);
 		}
 		
 		[Test(description="unregister()")]
@@ -391,7 +391,7 @@ package com.mixpanel
 			Assert.assertTrue("returns undefined if unknown property", localMix.get_property('hi') == undefined);
 			
 			localMix.register(props);
-			Assert.assertEquals("retrieves the correct value", "there", localMix.get_property("hi"));
+			Assert.assertEquals("retrieves the correct value", localMix.get_property("hi"), "there");
 		}
 		
 		[Test(description="get_distinct_id()")]
@@ -399,7 +399,7 @@ package com.mixpanel
 			var distinct:String = UIDUtil.createUID();
 			
 			localMix.identify(distinct);
-			Assert.assertEquals("retrieves distinct_id", distinct, localMix.get_distinct_id());
+			Assert.assertEquals("retrieves distinct_id", localMix.get_distinct_id(), distinct);
 		}
 		
 		[Test(description="identify")]
@@ -413,10 +413,10 @@ package com.mixpanel
 			);
 			
 			localMix.identify(distinct);
-			Assert.assertEquals("set distinct", distinct, localMix.storage.get("distinct_id"));
+			Assert.assertEquals("set distinct", localMix.storage.get("distinct_id"), distinct);
 			
 			localMix.identify(changed);
-			Assert.assertEquals("distinct was changed", changed, localMix.storage.get("distinct_id"));
+			Assert.assertEquals("distinct was changed", localMix.storage.get("distinct_id"), changed);
 		}
 		
 		[Test(description="name_tag")]
@@ -426,7 +426,7 @@ package com.mixpanel
 			Assert.assertFalse("empty before setting", localMix.storage.has("mp_name_tag"));
 			
 			localMix.name_tag(name);
-			Assert.assertEquals("name tag set", name, localMix.storage.get("mp_name_tag"));
+			Assert.assertEquals("name tag set", localMix.storage.get("mp_name_tag"), name);
 		}
 		
 		[Test(description="people_set")]
@@ -437,13 +437,13 @@ package com.mixpanel
 				data:Object, id:String = "someid";
 			
 			data = localMix.people_set("key", "val");
-			Assert.assertEquals("uses generated distinct_id", localMix.get_distinct_id(), data["$distinct_id"]);
+			Assert.assertEquals("uses generated distinct_id", data["$distinct_id"], localMix.get_distinct_id());
 			
 			localMix.identify(id);
 				
 			data = localMix.people_set('key0', 'val0');
 			Assert.assertTrue("supports setting a single value", objContains(data["$set"], testdata0));
-			Assert.assertEquals("grabs distinct_id", id, data["$distinct_id"]);
+			Assert.assertEquals("grabs distinct_id", data["$distinct_id"], id);
 			
 			data = localMix.people_set(testdata1);
 			Assert.assertTrue("supports setting with an object", objContains(data["$set"], testdata1));
@@ -461,13 +461,13 @@ package com.mixpanel
 				data:Object, id:String = "someid";
 			
 			data = localMix.people_increment("key");
-			Assert.assertEquals("uses generated distinct_id", localMix.get_distinct_id(), data["$distinct_id"]);
+			Assert.assertEquals("uses generated distinct_id", data["$distinct_id"], localMix.get_distinct_id());
 			
 			localMix.identify(id);
 			
 			data = localMix.people_increment('key0', 1);
 			Assert.assertTrue("supports incrementing a single value", objContains(data["$add"], testdata0));
-			Assert.assertEquals("grabs distinct_id", id, data["$distinct_id"]);
+			Assert.assertEquals("grabs distinct_id", data["$distinct_id"], id);
 			
 			data = localMix.people_increment(testdata1);
 			Assert.assertTrue("supports incrementing with an object", objContains(data["$add"], testdata1));
@@ -506,13 +506,13 @@ package com.mixpanel
 			var data:Object, id:String = "someid";
 			
 			data = localMix.people_delete();
-			Assert.assertEquals("uses generated distinct_id", localMix.get_distinct_id(), data["$distinct_id"]);
+			Assert.assertEquals("uses generated distinct_id", data["$distinct_id"], localMix.get_distinct_id());
 			
 			localMix.identify(id);
 			
 			data = localMix.people_delete();
-			Assert.assertEquals("supports deleting a user", id, data["$delete"]);
-			Assert.assertEquals("grabs distinct_id", id, data["$distinct_id"]);
+			Assert.assertEquals("supports deleting a user", data["$delete"], id);
+			Assert.assertEquals("grabs distinct_id", data["$distinct_id"], id);
 		}
 	}
 }

@@ -43,10 +43,10 @@ package com.mixpanel
 			Assert.assertTrue("Backend initializes successfully", backend.initialize());
 			
 			Assert.assertFalse(backend.has("test"));
-			Assert.assertEquals(undefined, backend.get("test"));
+			Assert.assertEquals(backend.get("test"), undefined);
 			backend.set("test", "testval");
 			Assert.assertTrue(backend.has("test"));
-			Assert.assertEquals("testval", backend.get("test"));
+			Assert.assertEquals(backend.get("test"), "testval");
 			backend.del("test");
 			Assert.assertFalse(backend.has("test"));
 			
@@ -79,7 +79,7 @@ package com.mixpanel
 			b1.initialize();
 			b1.set("test", "val");
 			
-			Assert.assertEquals('val', b1.get('test'));
+			Assert.assertEquals(b1.get('test'), 'val');
 			b1.clear();
 			Assert.assertFalse(b1.has('test'));
 			

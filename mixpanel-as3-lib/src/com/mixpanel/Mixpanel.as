@@ -146,19 +146,18 @@ package com.mixpanel
 				"properties": properties
 			};
 			
+			var ret:Object = undefined;
 			if (disableAllEvents || disabledEvents.indexOf(event) != -1) {
 				if (callback != null && config['verbose']) {
-					callback('{"status":0, "error":"Tracking of this event is disabled."}'); 
+					ret = callback('{"status":0, "error":"Tracking of this event is disabled."}');
 				} else if (callback != null) {
-					callback(0);
+					ret = callback(0);
 				}
-				
-				// tried my best to return data in the same format as sendRequest does
-				// what use case would use that information? 
-				return _.truncate(data, 255);
+			} else {
+				ret = sendRequest("track", data, callback);
 			}
 			
-			return sendRequest("track", data, callback);
+			return ret;
 		}
 		
 		/**

@@ -8,6 +8,12 @@ Official Mixpanel AS3 API
 
 Changelog
 ---------
+v2.2.1 - Library builds from command line.
+
+         $ make build SDK_HOME=/Path/To/Flex/SDK
+
+       - Callbacks in verbose mode get JSON compatible strings even when
+         no server call is made
 
 v2.2.0 - Add configuration options to allow for easier debugging, POSTing track calls.
 

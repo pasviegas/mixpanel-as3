@@ -214,7 +214,6 @@ package com.mixpanel
 			var asyncID:int = asyncHandler(function(resp:String):void {
 				Assert.assertEquals("server returned success", resp, "1");
 			});
-
 			mp.track("event_a", function(resp:String):void {
 				Assert.assertEquals("track should return an error", resp, 0);
 			});
@@ -230,10 +229,9 @@ package com.mixpanel
 		public function disable_withConfigVerbose_returnsJson () : void {
 			localMix.disable();
 			localMix.set_config({verbose: true});
-			
+
 			localMix.track("e_a", function(resp:String):void {
 				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
-				
 				Assert.assertEquals("track should return an error", decodedResult.status, 0);
 			});
 			
@@ -244,13 +242,10 @@ package com.mixpanel
 			
 			var asyncID:int = asyncHandler(function(resp:String):void {
 				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
-				
 				Assert.assertEquals("server returned success", decodedResult.status, "1");
 			});
-			
 			mp.track("event_a", function(resp:String):void {
 				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
-				
 				Assert.assertEquals("track should return an error", decodedResult.status, 0);
 			});
 			mp.track("event_b", function(resp:String):void {
@@ -258,7 +253,6 @@ package com.mixpanel
 			});
 			mp.track("event_c", function(resp:String):void {
 				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
-				
 				Assert.assertEquals("track should return an error", decodedResult.status, 0);
 			});
 		}

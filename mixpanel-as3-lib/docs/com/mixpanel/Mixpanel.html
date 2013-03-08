@@ -12,7 +12,7 @@
 				-->
 			</script><div xmlns:fn="http://www.w3.org/2005/xpath-functions" class="MainContent"><table class="classHeaderTable" cellpadding="0" cellspacing="0"><tr><td class="classHeaderTableLabel">Package</td><td><a href="package-detail.html" onclick="javascript:loadClassListFrame('class-list.html')">com.mixpanel</a></td></tr><tr><td class="classHeaderTableLabel">Class</td><td class="classSignature">public  class  Mixpanel</td></tr><tr><td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">Mixpanel  <img src="../../images/inherit-arrow.gif" title="Inheritance" alt="Inheritance" class="inheritArrow"> Object</td></tr></table><p></p><p></p><p></p>
 	 Mixpanel AS3 API
-	 <p>Version 2.2.0</p>
+	 <p>Version 2.2.1</p>
 	           <p></p><br/><hr></div><a name="methodSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Methods </div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableMethod"><tr><th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#Mixpanel()" class="signatureLink">Mixpanel</a>(token:String)</div><div class="summaryTableDescription">
 		 Create an instance of the Mixpanel library 
 		 
@@ -207,11 +207,15 @@
 		     crossSubdomainStorage: true,
 		 
 		     // enable test in development mode
-		     test: false
+		     test: false,
+		 		 	   // enable longer, debug-friendly api responses
+		     verbose: false,
+		 		     // Method to use when sending Mixpanel HTTP API requests,
+		     // should be either URLRequestMethod.GET or URLRequestMethod.POST
+		     request_method: URLRequestMethod.GET
 		 };
 		 </pre>
-		  
-		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">config</span>:Object</code> &mdash; A dictionary of new configuration values to update
+		 		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">config</span>:Object</code> &mdash; A dictionary of new configuration values to update
 		 
 		 </td></tr></table></p></div><a name="track()"></a><a name="track(String,restParam)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">track</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public function track(event:String, ... args):Object</code><p></p><p></p><p>
 		 Track an event.  This is the most important Mixpanel function and
@@ -233,4 +237,4 @@
 		 
 		 <p><b>THIS IS UNREVERSABLE!  Be careful.</b></p>
 		 
-		 </p></div><br/><br/><hr><br/><p></p><center class="copyright"><footer></footer><br/>Mon Mar 4 2013, 06:21 PM -08:00  </center></div></body></html><!--<br/>Mon Mar 4 2013, 06:21 PM -08:00  -->
+		 </p></div><br/><br/><hr><br/><p></p><center class="copyright"><footer></footer><br/>Thu Mar 7 2013, 04:14 PM -08:00  </center></div></body></html><!--<br/>Thu Mar 7 2013, 04:14 PM -08:00  -->

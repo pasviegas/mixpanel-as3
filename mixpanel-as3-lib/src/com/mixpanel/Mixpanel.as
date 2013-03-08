@@ -13,7 +13,7 @@ package com.mixpanel
 	
 	/**
 	 * Mixpanel AS3 API
-	 * <p>Version 2.2.0</p>
+	 * <p>Version 2.2.1</p>
 	 */
 	
 	public class Mixpanel
@@ -95,7 +95,7 @@ package com.mixpanel
 			loader.addEventListener(IOErrorEvent.IO_ERROR,
 				function(e:IOErrorEvent):void {
 					if ((callback != null) && config["verbose"]) {
-						callback(e.text)
+						callback('{"status":0,"error":"' + e.text + '"}');
 					} else if (callback != null) {
 						callback(0);
 					}
@@ -133,9 +133,6 @@ package com.mixpanel
 				}
 			}
 			
-			if (disableAllEvents || disabledEvents.indexOf(event) != -1) {
-				if (callback != null) { return callback(0); }
-			}
 
 			properties = properties ? _.extend({}, properties) : {};
 
@@ -149,7 +146,18 @@ package com.mixpanel
 				"properties": properties
 			};
 			
-			return sendRequest("track", data, callback);
+			var ret:Object = undefined;
+			if (disableAllEvents || disabledEvents.indexOf(event) != -1) {
+				if (callback != null && config['verbose']) {
+					ret = callback('{"status":0, "error":"Tracking of this event is disabled."}');
+				} else if (callback != null) {
+					ret = callback(0);
+				}
+			} else {
+				ret = sendRequest("track", data, callback);
+			}
+
+			return ret;
 		}
 		
 		/**
@@ -455,10 +463,17 @@ package com.mixpanel
 		 *     crossSubdomainStorage: true,
 		 * 
 		 *     // enable test in development mode
-		 *     test: false
+		 *     test: false,
+		 *
+		 * 	   // enable longer, debug-friendly api responses
+		 *     verbose: false,
+		 *
+		 *     // Method to use when sending Mixpanel HTTP API requests,
+		 *     // should be either URLRequestMethod.GET or URLRequestMethod.POST
+		 *     request_method: URLRequestMethod.GET
 		 * };
 		 * </pre>
-		 *  
+		 *
 		 * @param config A dictionary of new configuration values to update
 		 * 
 		 */		

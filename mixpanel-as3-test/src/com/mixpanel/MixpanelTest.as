@@ -234,12 +234,12 @@ package com.mixpanel
 				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
 				Assert.assertEquals("track should return an error", decodedResult.status, 0);
 			});
-			
+
 			var mp:Mixpanel = makeMP();
 			mp.set_config({verbose: true});
 			mp.disable(["event_a"]);
 			mp.disable(["event_c"]);
-			
+
 			var asyncID:int = asyncHandler(function(resp:String):void {
 				var decodedResult : Object = mixpanelUtil.jsonDecode(resp);
 				Assert.assertEquals("server returned success", decodedResult.status, "1");
@@ -256,7 +256,7 @@ package com.mixpanel
 				Assert.assertEquals("track should return an error", decodedResult.status, 0);
 			});
 		}
-		
+
 		[Test(description="storage should upgrade")]
 		public function storage_upgrade():void {
 			var old:SharedObject = SharedObject.getLocal("mixpanel"),

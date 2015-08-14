@@ -289,7 +289,7 @@ package com.mixpanel
 		 * <pre>
 		 * 		mixpanel.people_set('gender', 'm');
 		 * 
-		 * 		mixpanel.people.set({
+		 * 		mixpanel.people_set({
 		 * 			'company': 'Acme',
 		 * 			'plan': 'free'
 		 * 		});

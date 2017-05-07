@@ -321,7 +321,105 @@ package com.mixpanel
 			
 			return sendRequest("engage", data, callback);
 		}
-		
+
+		/**
+		 * Merge a given list with a list-valued people analytics property,
+		 * excluding duplicate values.
+		 *
+		 * ### Usage:
+		 *
+		 *     // merge a value to a list, creating it if needed
+		 *     mixpanel.people_union('pages_visited', 'homepage');
+		 *
+		 *     // like mixpanel.people_set(), you can append multiple
+		 *     // properties at once:
+		 *     mixpanel.people_union({
+		 *         list1: 'bob',
+		 *         list2: 123
+		 *     });
+		 *
+		 *     // like mixpanel.people_append(), you can append multiple
+		 *     // values to the same list:
+		 *     mixpanel.people_union({
+		 *         list1: ['bob', 'billy']
+		 *     });
+		 *
+		 */
+        public function people_union(...args):Object
+        {
+            var $union:Object = {}, callback:Function = null;
+
+            if (args[0] is String) {
+                $union[args[0]] = [args[1]];
+            } else {
+                for (var key:String in args[0]) {
+                    if (args[0][key]) {
+                        $union[key] = (args[0][key] is Array) ? args[0][key] : [args[0][key]];
+                    }
+                }
+            }
+
+            if (args[args.length-1] is Function) {
+                callback = args[args.length-1];
+            }
+
+            $union = $union ? _.extend({}, $union) : {};
+
+            var data:Object = {
+                "$union": $union,
+                "$token": config.token,
+                "$distinct_id": storage.get("distinct_id")
+            };
+
+            return sendRequest("engage", data, callback);
+        }
+
+
+		/**
+		 * Append a value to a list-valued people analytics property.
+		 *
+		 * ### Usage:
+		 *
+		 *     // append a value to a list, creating it if needed
+		 *     mixpanel.people_append('pages_visited', 'homepage');
+		 *
+		 *     // like mixpanel.people_set(), you can append multiple
+		 *     // properties at once:
+		 *     mixpanel.people_append({
+		 *         list1: 'bob',
+		 *         list2: 123
+		 *     });
+		 *
+		 */
+        public function people_append(...args):Object
+        {
+            var $append:Object = {}, callback:Function = null;
+
+            if (args[0] is String) {
+                $append[args[0]] = args[1];
+            } else {
+                for (var key:String in args[0]) {
+                    if (args[0][key]) {
+                        $append[key] = args[0][key];
+                    }
+                }
+            }
+
+            if (args[args.length-1] is Function) {
+                callback = args[args.length-1];
+            }
+
+            $append = $append ? _.extend({}, $append) : {};
+
+            var data:Object = {
+                "$append": $append,
+                "$token": config.token,
+                "$distinct_id": storage.get("distinct_id")
+            };
+
+            return sendRequest("engage", data, callback);
+        }
+
 		/**
 		 * Increment/decrement properties on a user record
 		 * 

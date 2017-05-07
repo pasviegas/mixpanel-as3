@@ -442,7 +442,53 @@ package com.mixpanel
 			data = localMix.people_set(testdata2);
 			Assert.assertTrue("supports setting multiple keys", objContains(data["$set"], testdata2));
 		}
-		
+
+        [Test(description="people_union")]
+        public function people_union():void {
+            var testdata0:Object = { key0: ['val0'] },
+                    testdata1:Object = { key1: ['val1', 'val2'] },
+                    testdata2:Object = { key2: ['val2'], key3: ['val3'] },
+                    data:Object, id:String = "someid";
+
+            data = localMix.people_union("key", "val");
+            Assert.assertEquals("uses generated distinct_id", data["$distinct_id"], localMix.get_distinct_id());
+
+            localMix.identify(id);
+
+            data = localMix.people_union('key0', 'val0');
+            Assert.assertTrue("supports setting a single value", objContains(data["$union"], testdata0));
+            Assert.assertEquals("grabs distinct_id", data["$distinct_id"], id);
+
+            data = localMix.people_union({ key2: 'val2', key3: 'val3' });
+            Assert.assertTrue("supports setting with an object", objContains(data["$union"], testdata2));
+
+            data = localMix.people_union(testdata1);
+            Assert.assertTrue("supports setting multiple keys", objContains(data["$union"], testdata1));
+        }
+
+        [Test(description="people_append")]
+        public function people_append():void {
+            var testdata0:Object = { key0: 'val0' },
+                    testdata1:Object = { key1: 'val1' },
+                    testdata2:Object = { key2: 'val2', key3: 'val3' },
+                    data:Object, id:String = "someid";
+
+            data = localMix.people_append("key", "val");
+            Assert.assertEquals("uses generated distinct_id", data["$distinct_id"], localMix.get_distinct_id());
+
+            localMix.identify(id);
+
+            data = localMix.people_append('key0', 'val0');
+            Assert.assertTrue("supports setting a single value", objContains(data["$set"], testdata0));
+            Assert.assertEquals("grabs distinct_id", data["$distinct_id"], id);
+
+            data = localMix.people_append(testdata1);
+            Assert.assertTrue("supports setting with an object", objContains(data["$set"], testdata1));
+
+            data = localMix.people_append(testdata2);
+            Assert.assertTrue("supports setting multiple keys", objContains(data["$set"], testdata2));
+        }
+
 		[Test(description="people_increment")]
 		public function people_increment():void {
 			var testdata0:Object = { key0: 1 },

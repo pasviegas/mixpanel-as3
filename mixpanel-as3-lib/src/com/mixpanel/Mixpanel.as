@@ -323,6 +323,49 @@ package com.mixpanel
 		}
 
 		/**
+		 * Set properties on a user record, only if they do not yet exist.
+		 * This will not overwrite previous people property values, unlike
+		 * people.set().
+		 *
+		 * ### Usage:
+		 *
+		 *     mixpanel.people.set_once('First Login Date', new Date());
+		 *
+		 *     // or set multiple properties at once
+		 *     mixpanel.people.set_once({
+		 *         'First Login Date': new Date(),
+		 *         'Starting Plan': 'Premium'
+		 *     });
+		 *
+		 *     // properties can be strings, integers or dates
+		 *
+		 */
+        public function people_set_once(...args):Object
+        {
+            var $set_once:Object = {}, callback:Function = null;
+
+            if (args[0] is String) {
+                $set_once[args[0]] = args[1];
+            } else {
+                $set_once = args[0];
+            }
+
+            if (args[args.length-1] is Function) {
+                callback = args[args.length-1];
+            }
+
+            $set_once = $set_once ? _.extend({}, $set_once) : {};
+
+            var data:Object = {
+                "$set_once": $set_once,
+                "$token": config.token,
+                "$distinct_id": storage.get("distinct_id")
+            };
+
+            return sendRequest("engage", data, callback);
+        }
+
+		/**
 		 * Merge a given list with a list-valued people analytics property,
 		 * excluding duplicate values.
 		 *
